@@ -6,7 +6,10 @@ target 'MVVM' do
   use_frameworks!
     pod 'RxSwift',    '~> 4.0'
     pod 'RxCocoa',    '~> 4.0'
-  # Pods for MVVM
+    pod 'SVProgressHUD'
+    pod 'Alamofire', '~> 4.0'
+    pod 'SDWebImage', '~> 4.0'
+    # Pods for MVVM
 
   target 'MVVMTests' do
     inherit! :search_paths
