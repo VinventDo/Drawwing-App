@@ -16,27 +16,18 @@ class BaseAPI: NSObject {
         self.apiName = apiName
     }
     
-    func cancelRequest(){
-        let sessionManager = Alamofire.SessionManager.default
-        sessionManager.session.getTasksWithCompletionHandler { dataTasks, uploadTasks, downloadTasks in
-            dataTasks.forEach { $0.cancel() }
-            uploadTasks.forEach { $0.cancel() }
-            downloadTasks.forEach { $0.cancel() }
-        }
-    }
-    
     // Request action
-    func callAction(action: String, methodName: Alamofire.HTTPMethod, params: Dictionary<String, AnyObject>,fromLogin: Bool? = false, fromMaintenance: Bool? = false, controller: UpdateTimeMaintenance? = nil, callback: @escaping (_ response: Dictionary<String, AnyObject>, _ status: GvHttpStatus)->Void) {
+    func callAction(action: String, methodName: Alamofire.HTTPMethod, params: Dictionary<String, AnyObject>, callback: @escaping (_ response: Dictionary<String, AnyObject>, _ status: GvHttpStatus)->Void) {
         
         // Check isDebug variable to use production server or dev server.
-        let serverURL = (isDebug == true) ? ("\(Constant.ApiSever.url)/\(apiName)\(action)") : ("\(kDevServerURL)/\(apiName)\(action)")
-        var headers = [
+        let serverURL = ("\(Constant.ApiSever.url)/\(apiName)\(action)")
+        let headers = [
             "Content-Type": "application/json",
             "Login-User-Type": "Student"
         ]
-        if LocalStorage.getValueWithKey(key: "token") is String && LocalStorage.getValueWithKey(key: "token") as! String != "" {
-            headers.updateValue((LocalStorage.getValueWithKey(key: "token") as! String), forKey: "Authorization")
-        }
+//        if LocalStorage.getValueWithKey(key: "token") is String && LocalStorage.getValueWithKey(key: "token") as! String != "" {
+//            headers.updateValue((LocalStorage.getValueWithKey(key: "token") as! String), forKey: "Authorization")
+//        }
         // TODO: Setting timeout for alamofire
         Alamofire.SessionManager.default.session.configuration.timeoutIntervalForRequest = 120
         if methodName != .get {

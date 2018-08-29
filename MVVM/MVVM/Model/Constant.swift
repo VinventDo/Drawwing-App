@@ -9,9 +9,7 @@
 import Foundation
 struct Constant{
     struct ApiSever{
-        var url: String{
-            return "http://appson.transoftvietnam.com/api"
-        }
+        static let url = "http://appson.transoftvietnam.com/api"
     }
     
 }
